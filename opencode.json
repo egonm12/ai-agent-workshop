@@ -12,11 +12,22 @@
     "plan": {
       "model": "github-copilot/gpt-5",
       "description": "Strategic planning and architectural decisions",
-      "mode": "primary"
+      "mode": "primary",
+      "tools": {
+        "bash": false,
+        "edit": false,
+        "write": false,
+        "patch": false
+      }
     },
     "simple-tasks": {
       "model": "github-copilot/gpt-5-mini",
       "description": "Quick assistance with simple or repetitive tasks",
+      "mode": "subagent"
+    },
+    "complex-tasks": {
+      "model": "github-copilot/gpt-5",
+      "description": "In depth assistance with complex or large tasks",
       "mode": "subagent"
     }
   },

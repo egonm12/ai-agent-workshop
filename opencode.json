@@ -1,0 +1,41 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {},
+  "model": "github-copilot/claude-sonnet-4",
+  "small_model": "github-copilot/gpt-5-mini",
+  "agent": {
+    "build": {
+      "model": "github-copilot/claude-sonnet-4",
+      "description": "Building and implementing features with detailed code generation",
+      "mode": "primary"
+    },
+    "plan": {
+      "model": "github-copilot/gpt-5",
+      "description": "Strategic planning and architectural decisions",
+      "mode": "primary"
+    },
+    "simple-tasks": {
+      "model": "github-copilot/gpt-5-mini",
+      "description": "Quick assistance with simple or repetitive tasks",
+      "mode": "subagent"
+    }
+  },
+  "mcp": {
+    "sequential-thinking": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    },
+    "playwright": {
+      "type": "local",
+      "command": ["npx", "-y", "@playwright/mcp@latest"]
+    },
+    "github": {
+      "type": "remote",
+      "url": "https://api.githubcopilot.com/mcp/"
+    }
+  }
+}

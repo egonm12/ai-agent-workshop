@@ -2,6 +2,8 @@
 
 > From single prompts to a coordinated AI delivery loop.
 
+**This is not a "vibe coding" workshop.** You'll learn production-ready patterns for building quality software with AI assistance in your real projects. Focus is on systematic workflows, proper delegation, and maintainable outcomes.
+
 ## 0. Audience & Prerequisites [Core]
 
 Designed for software engineers comfortable with Git, Node (≥18), and basic LLM usage. You'll evolve a minimal multi-agent system (opencode + MCP) into a richer autonomous setup producing reusable artifacts (research summaries, specs, starter code).
@@ -103,7 +105,7 @@ Current MCP servers and their intent:
 |------------|------|---------|------------------------|
 | `sequential-thinking` | Local reasoning enhancer | Provides structured multi-step thought scaffolding (explicit chain-of-thought style planning without leaking internal reasoning unless summarized) | Often auto-invoked when the agent detects a multi-part objective OR explicitly: "Use sequential thinking to break this down." |
 | `playwright` | Local browser automation / UI exploration | Enables scripted browsing, DOM inspection, screenshots, interaction for tasks like "open the page and extract X" or "take a screenshot" | Usually explicit: "Use the playwright tool to test out the contact form on https://example.com/contact." |
-| `github` | Remote (Copilot) GitHub context / code operations | Supplies repository information, PR diffs, issues, code search, commit data | Auto when referencing repo/PR specifics (e.g. "List open PRs"), or explicit: "Use the GitHub tool to fetch the diff of PR #12." |
+
 
 Trigger strategy explanation:
 - **Implicit (semantic) trigger**: The agent decides a tool is relevant from your higher-level instruction (e.g., "Break this big task into smaller logical steps" may cause use of `sequential-thinking`).
@@ -191,6 +193,155 @@ Context7 provides up-to-date, version-specific documentation and code examples f
 - Check that the server appears in logs during opencode startup
 - API rate limits apply; consider getting a free API key from context7.com for higher limits
 
+### Assignment 3: Research Task Management Solutions
+
+Goal: Use your research sub-agent to analyze existing task management solutions and identify opportunities for a dependency-aware approach.
+
+**Workshop Challenge:** You'll be building a **Dependency-Aware Task Manager** - a todo app where tasks can depend on other tasks with these tricky requirements:
+- Circular dependencies must be detected and blocked
+- Tasks can't be marked as "done" until dependencies are complete
+- User can see dependency trees, perhaps visualize them as graphs
+
+**Step 1: Use PLAN agent to scope the research**
+```
+"Plan focused research on task management applications that handle task dependencies or project workflows. Identify 5 competitors and analyze how they handle task relationships, dependencies, or project structures."
+```
+
+**Step 2: Use BUILD agent to create research structure**
+```
+"Create research/ directory with competitive-analysis.md and dependency-pain-points.md. Include templates for competitor comparison focusing on dependency handling and user pain points around task relationships."
+```
+
+**Step 3: Execute targeted research**
+- "Use research to analyze 5 task management tools (like Asana, Monday.com, Todoist, Linear, etc.). Fill in @research/competitive-analysis.md focusing on how they handle task dependencies, if at all."
+- "Use research to identify user pain points around task dependencies and project management complexity. Complete @research/dependency-pain-points.md with evidence of what frustrates users about current tools."
+
+**Expected outputs:**
+- `research/competitive-analysis.md` - 5 competitor analysis focused on dependency features
+- `research/dependency-pain-points.md` - User frustrations with current dependency/project tools
+
+**Agent pattern:** PLAN → BUILD → RESEARCH → RESEARCH
+
+### Assignment 4: Define Core Dependency Features
+
+Goal: Define exactly 2 core features for the Dependency-Aware Task Manager based on research findings.
+
+**Step 1: Use PLAN agent to identify core features**
+```
+"Review @research/ files and propose 2 core features for a Dependency-Aware Task Manager that address the pain points found in research. Focus on: 1) Basic task dependency creation/management and 2) Dependency validation/cycle detection. Keep scope small - features that can be built in 2-3 days each."
+```
+
+**Step 2: Use BUILD agent to create dependency-focused specs**
+```
+"Create specs/mvp-features.md with detailed specifications for the 2 dependency management features. Include user stories, acceptance criteria, and technical approach considering graph algorithms and state management challenges."
+```
+
+**Suggested core features:**
+- **Feature 1: Create Task Dependencies** - Users can link tasks together in dependency relationships
+- **Feature 2: Dependency Validation** - System detects circular dependencies and prevents invalid task completion
+
+**Feature template:**
+```markdown
+## Feature: [Name]
+**User Story:** As a [user], I want [goal] so that [benefit]
+**Acceptance Criteria:**
+- [ ] Specific testable requirement
+- [ ] Another measurable outcome
+**Technical Approach:** Brief implementation notes (consider graph algorithms)
+**Graph Challenges:** Specific dependency-related complexities to address
+```
+
+**Expected output:**
+- `specs/mvp-features.md` - 2 dependency management features ready for implementation
+
+**Agent pattern:** PLAN → BUILD
+
+### Assignment 5: Establish Development Guidelines
+
+Goal: Extend the existing @AGENTS.md file with project-specific development standards that will guide all AI agents during implementation.
+
+**Understanding AGENTS.md:**
+The `@AGENTS.md` file serves as a "constitution" for AI agents in your project. It provides guidelines, guardrails, and standards that agents automatically reference when working on your code. This ensures consistent quality, prevents common mistakes, and enforces your preferred development practices across all agent interactions.
+
+**Step 1: Use SIMPLE-TASKS agent to review current guidelines**
+```
+"Review @AGENTS.md and summarize the current guidelines. Identify what development practices, coding standards, or technical approaches are missing for building quality software."
+```
+
+**Step 2: Use PLAN agent to design additional guidelines**
+```
+"Based on the 2 features in @specs/mvp-features.md and modern software development practices, propose additions to @AGENTS.md. Include: coding standards, testing approach (TDD/testing strategy), error handling patterns, security considerations, and technology-specific best practices."
+```
+
+**Step 3: Use BUILD agent to extend AGENTS.md**
+```
+"Add the proposed guidelines to @AGENTS.md. Create new sections for: Development Standards, Testing Strategy, Code Quality Rules, and Technology Guidelines. Ensure agents understand when and how to apply these standards."
+```
+
+**Example additions to consider:**
+- **Testing Strategy:** "All features require unit tests. Use TDD approach - write failing test first, implement feature, refactor."
+- **Code Quality:** "Follow [language] conventions. Use meaningful variable names. Add JSDoc/docstrings for public functions."
+- **Error Handling:** "Implement proper error boundaries. Log errors with context. Provide user-friendly error messages."
+- **Security:** "Sanitize all user inputs. Use environment variables for secrets. Validate all API responses."
+
+**Expected outcome:**
+- Enhanced `@AGENTS.md` with comprehensive development guidelines
+- Clear standards that agents will follow during feature implementation
+
+**Agent pattern:** SIMPLE-TASKS → PLAN → BUILD
+
+### Assignment 6: Build Dependency-Aware Task Manager
+
+Goal: Implement the 2 dependency management features using systematic agent delegation and established guidelines.
+
+**Step 1: Use BUILD agent to set up task manager project**
+```
+"Review @specs/mvp-features.md and @AGENTS.md. Set up a [React/Node.js/Python] project for a Dependency-Aware Task Manager following development standards. Include testing framework setup and consider graph algorithm libraries (like vis.js for React visualization or networkx for Python)."
+```
+*Consider: CLI version (Node.js/Python) or web version (React) based on your preferred tech stack*
+
+**Step 2: Build task dependency creation feature**
+```
+"Implement the task dependency creation feature from @specs/mvp-features.md. Focus on data structures to represent task graphs and basic CRUD operations for tasks and their relationships. Follow @AGENTS.md standards and implement with graph algorithms in mind."
+```
+
+**Step 3: Use SIMPLE-TASKS agent to validate dependency creation**
+```
+"Validate the task dependency creation feature. Test that users can create tasks, link them as dependencies, and that the underlying graph data structure correctly represents relationships. Check against acceptance criteria and coding standards."
+```
+
+**Step 4: Build dependency validation and cycle detection**
+```
+"Implement the dependency validation feature from @specs/mvp-features.md. Include cycle detection algorithms (like DFS-based cycle detection) and business logic to prevent task completion when dependencies aren't met. Ensure integration with the existing task system."
+```
+
+**Step 5: Use SIMPLE-TASKS agent for comprehensive validation**
+```
+"Perform full validation of the Dependency-Aware Task Manager. Test cycle detection works correctly, tasks can't be marked done with incomplete dependencies, and the system handles complex dependency graphs properly. Verify all acceptance criteria are met."
+```
+
+**Technical challenges to address:**
+- Graph data structure design and storage
+- Cycle detection algorithm implementation
+- Task completion validation logic
+- Visualization/display of dependency trees
+
+**Expected outcome:**
+- Working Dependency-Aware Task Manager with both core features
+- Proper cycle detection preventing circular dependencies
+- Task completion validation based on dependency status
+- Clean implementation following established development standards
+
+**Agent pattern:** BUILD → SIMPLE-TASKS → BUILD → SIMPLE-TASKS
+
+**Technology flexibility:** The agents can work with any tech stack - specify your preferences in prompts:
+- **Frontend:** React, Vue, Angular, Svelte + CSS frameworks (Tailwind, Bootstrap, Material-UI)
+- **Backend:** Node.js, Python (FastAPI/Django), Go, Java (Spring Boot)
+- **Database:** PostgreSQL, MongoDB, SQLite
+- **Deployment:** Docker, Vercel, Railway, traditional servers
+
+**💡 Context7 tip:** If you added Context7 in Assignment 2, explicitly mention it in your prompts: "Use Context7 to get current [React/FastAPI/etc.] documentation and implement using the latest patterns." This ensures agents use up-to-date APIs and best practices instead of potentially outdated training data.
+
 ---
 
 ## 8. File Referencing & Tool Usage [Core]
@@ -219,7 +370,7 @@ When working with agents, reference specific files using the `@` syntax for prec
 |------------|------|---------|-----------------|
 | `sequential-thinking` | Local reasoning enhancer | Structured multi-step thought scaffolding | Auto: multi-part objectives; Explicit: "Use sequential thinking" |
 | `playwright` | Local browser automation | Scripted browsing, DOM inspection, screenshots | Usually explicit: "Use playwright tool to..." |
-| `github` | Remote GitHub context | Repository info, PR diffs, issues, code search | Auto: repo/PR references; Explicit: "Use GitHub tool" |
+
 
 ---
 
@@ -334,7 +485,7 @@ Compare: structure, depth, consistency, reusability of intermediate artifacts.
 **Tool-conscious prompt templates:**
 - **Sequential Thinking (explicit):** "Use a structured multi-step reasoning process (sequential thinking tool) to decompose this requirement before proposing a plan."
 - **Playwright (explicit):** "Use the playwright tool to open https://example.com, extract the main heading text, and return a screenshot."
-- **GitHub (explicit):** "Use the GitHub tool to list open issues labeled 'bug' and summarize recurring themes."
+
 
 **Escalation pattern:**
 1. High-level objective
